@@ -1,0 +1,23 @@
+name: Compilar VST3 (Windows)
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configurar
+        run: cmake -B build -DCOPY_AFTER_BUILD=OFF
+
+      - name: Compilar
+        run: cmake --build build --config Release
+
+      - name: Subir el plugin
+        uses: actions/upload-artifact@v4
+        with:
+          name: MiCompresor-VST3-Windows
+          path: build/MiCompresor_artefacts/Release/VST3
